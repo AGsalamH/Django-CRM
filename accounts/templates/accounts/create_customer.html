@@ -1,0 +1,12 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-dark" type="submit" value="create">
+    </form>
+
+
+{% endblock content %}
