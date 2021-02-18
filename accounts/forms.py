@@ -1,5 +1,4 @@
 from django import forms
-from django.db.models import indexes, query
 from django.forms import ModelForm
 from django.forms.widgets import TextInput, Textarea
 from .models import Customer, Order, Product
@@ -8,6 +7,11 @@ STATUS = (
     ('Pending', 'Pending'),
     ('Out for delivery', 'Out for delivery'),
     ('Delivered', 'Delivered'),
+)
+
+CATEGORY = (
+    ('Indoor', 'Indoor'),
+    ('Out Door', 'Out Door')
 )
 
 
@@ -26,11 +30,11 @@ class CreateCustomer(ModelForm):
 class CreateProduct(ModelForm):
     class Meta:
         model =  Product
-        fields = ['name', 'price', 'category', 'description', 'tags']
+        fields = ['name', 'price', 'category', 'description']
         widgets = {
             'name': TextInput(attrs={'class': 'form-control'}),
             'price': TextInput(attrs={'class': 'form-control'}),
-            'category': TextInput(attrs={'class': 'form-control'}),
+            'category': forms.Select(choices=CATEGORY, attrs={'class': 'form-control'}),
             'description': Textarea(attrs={'class': 'form-control'}),
         }
 

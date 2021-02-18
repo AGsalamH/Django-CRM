@@ -14,14 +14,6 @@ class Customer(models.Model):
         return self.name
 
 
-
-class Tag(models.Model):
-    title = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.title
-
-
 class Product(models.Model):
     CATEGORY = (
         ('Indoor', 'Indoor'),
@@ -33,7 +25,6 @@ class Product(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY, null=True)
     date_created = models.DateTimeField(auto_now_add=False, null=True, default=timezone.now)
     description = models.CharField(max_length=300, null=True)
-    tags = ManyToManyField(Tag)
 
     def __str__(self):
         return self.name

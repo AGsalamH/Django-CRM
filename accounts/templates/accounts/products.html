@@ -23,12 +23,13 @@
 						<td>{{ product.name }}</td>
 						<td>{{ product.category }}</td>
 						<td>{{ product.price}}</td>
-						<td> <a class="btn btn-sm btn-info" href="#">Update</a> </td>
+						<td> <a class="btn btn-sm btn-info" href="{% url 'update_product' product.id %}">Update</a> </td>
 						<td> <a class="btn btn-sm btn-danger" href="{% url 'delete_product' product.id %}">Delete</a> </td>
 					</tr>
 				{% endfor %}
-                
             </table>
+            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_product' %}">Create New Product</a>
+
         </div>
     </div>
     
