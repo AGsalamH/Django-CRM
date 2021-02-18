@@ -39,14 +39,13 @@ def customers_view(request):
     return render(request, 'accounts/customers.html', context)
 
 def customer_view(request, pk):
-    order_count = Order.objects.count()
     customer = Customer.objects.get(id=pk)
-    customer_orders = customer.order_set.all()
-    print(customer_orders)
+    orders = customer.order_set.all()
+    orders_count = orders.count()
     context = {
         'customer': customer,
-        'order_count': order_count,
-        'customer_orders': customer_orders
+        'orders': orders,
+        'orders_count': orders_count
     }
     return render(request, 'accounts/customer.html', context)
 
