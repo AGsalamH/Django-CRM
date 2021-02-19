@@ -2,7 +2,13 @@ from django.shortcuts import redirect, render
 from .models import Customer,Product, Order
 
 # Forms
-from .forms import CreateCustomer, CreateOrder, CreateProduct
+from .forms import (
+    CreateCustomer, 
+    CreateOrder, 
+    CreateProduct, 
+    LoginForm,
+    RegisterForm
+)
 
 # Create your views here.
 
@@ -165,3 +171,26 @@ def update_customer(request, pk):
         'form': form
     }
     return render(request, 'accounts/create.html', context)
+
+
+# ------------------------ AUTH ------------------------
+def login_view(request):
+    form = LoginForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, 'accounts/login.html', context)
+
+def register_view(request):
+    form = RegisterForm()
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/login/')
+            
+    context = {
+        'form': form
+    }
+    return render(request, 'accounts/register.html', context)

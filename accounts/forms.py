@@ -1,7 +1,13 @@
 from django import forms
+from django.db.models import fields
 from django.forms import ModelForm
 from django.forms.widgets import TextInput, Textarea
 from .models import Customer, Order, Product
+
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import  get_user_model
+
+UserModel = get_user_model()
 
 STATUS = (
     ('Pending', 'Pending'),
@@ -49,3 +55,46 @@ class CreateOrder(ModelForm):
             'product': forms.Select(choices=Product.objects.all() ,attrs={'class': 'form-control'}),
             'status': forms.Select(choices=STATUS, attrs={'class': 'form-control'})
         }
+
+class RegisterForm(UserCreationForm):
+    class Meta:
+        model = UserModel
+        fields = ('username', 'email', 'password1', 'password2')
+        widgets = {
+            'username': forms.widgets.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'username'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'Your Email here ...'
+            })    
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].widget = forms.widgets.Input(attrs={
+            'class': 'form-control',
+            'type': 'password',
+            'placeholder': 'Password'
+        })
+        self.fields['password2'].widget = forms.widgets.Input(attrs={
+            'class': 'form-control',
+            'type': 'password',
+            'placeholder': 'Confirm password'
+        })
+
+
+class LoginForm(AuthenticationForm):
+    class Meta:
+        model = UserModel
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget = forms.widgets.TextInput(attrs={
+            'class': 'form-control'
+        }) 
+        self.fields['password'].widget = forms.widgets.PasswordInput(attrs={
+            'class': 'form-control'
+        })
