@@ -1,3 +1,5 @@
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from .models import Customer,Product, Order
 
@@ -72,6 +74,7 @@ def create_customer(request):
 
     return render(request, 'accounts/create.html', context)
 
+@login_required
 def create_order(request):
     form = CreateOrder()
 
@@ -177,6 +180,14 @@ def update_customer(request, pk):
 def login_view(request):
     form = LoginForm()
 
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('/')
+
     context = {
         'form': form
     }
@@ -187,10 +198,15 @@ def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(commit=True)
             return redirect('/login/')
             
     context = {
         'form': form
     }
     return render(request, 'accounts/register.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/login/')

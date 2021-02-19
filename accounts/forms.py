@@ -59,8 +59,16 @@ class CreateOrder(ModelForm):
 class RegisterForm(UserCreationForm):
     class Meta:
         model = UserModel
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
         widgets = {
+            'first_name': forms.widgets.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'firstname'
+            }),
+            'last_name': forms.widgets.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'lastname'
+            }),
             'username': forms.widgets.TextInput(attrs={
                 'class': 'form-control', 
                 'placeholder': 'username'
@@ -88,7 +96,7 @@ class RegisterForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     class Meta:
         model = UserModel
-        fields = '__all__'
+        fields = ('username', 'password')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -10,7 +10,14 @@
             <p class="text-center">Get started with your free account</p>            
             <form method="POST" action="">
                 {% csrf_token %}
-                
+                {{ form.errors }}
+
+                {{ form.first_name.label }}
+                {{ form.first_name }}
+
+                {{ form.last_name.label }}
+                {{ form.last_name }}
+
                 {{ form.username.label }}
                 {{ form.username }}
 
@@ -22,8 +29,9 @@
                 
                 {{ form.password2.label }}
                 {{ form.password2 }}
-                
+                <br>
                 <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
+                <hr>
                 <p class="text-center">Have an account? <a href="{% url 'login' %}">Log In</a> </p>                                                                 
             </form>
         </article>
