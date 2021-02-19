@@ -92,6 +92,19 @@ def create_product(request):
     }
     return render(request, 'accounts/create.html', context)
 
+def customer_create_order(request, pk):
+    customer = Customer.objects.get(id=pk)
+    form = CreateOrder(initial={'customer': customer})
+    if request.method == 'POST':
+        form = CreateOrder(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect(f'/customers/{customer.id}')
+    
+    context = {
+        'form': form
+    }
+    return render(request, 'accounts/create.html', context)
 
 # ------------------------ DELETE ------------------------
 def delete_order(request, pk):
