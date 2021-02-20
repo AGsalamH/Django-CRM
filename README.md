@@ -7,3 +7,5 @@ First django app, Implementing CRUD operations
 - Templates (DTL syntax)
 - Serve Static files
 - Sign models to django admin panel
+- Auth
+- Flash Messages
