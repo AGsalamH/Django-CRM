@@ -59,6 +59,7 @@ def customer_view(request, pk):
 
 
 # ------------------------ CREATE ------------------------
+@login_required
 def create_customer(request):
     form = CreateCustomer()
 
@@ -88,6 +89,7 @@ def create_order(request):
     }
     return render(request, 'accounts/create.html', context)
 
+@login_required
 def create_product(request):
     form = CreateProduct()
     if request.method == 'POST':
@@ -101,6 +103,7 @@ def create_product(request):
     }
     return render(request, 'accounts/create.html', context)
 
+@login_required
 def customer_create_order(request, pk):
     customer = Customer.objects.get(id=pk)
     form = CreateOrder(initial={'customer': customer})
@@ -116,16 +119,20 @@ def customer_create_order(request, pk):
     return render(request, 'accounts/create.html', context)
 
 # ------------------------ DELETE ------------------------
+
+@login_required
 def delete_order(request, pk):
     order = Order.objects.get(id=pk)
     order.delete()
     return redirect('/')
 
+@login_required
 def delete_customer(request, pk):
     customer = Customer.objects.get(id=pk)
     customer.delete()
     return redirect('/')
 
+@login_required
 def delete_product(request, pk):
     product = Product.objects.get(id=pk)
     product.delete()
@@ -133,6 +140,7 @@ def delete_product(request, pk):
 
 
 # ------------------------ UPDATE ------------------------
+@login_required
 def update_product(request, pk):
     product = Product.objects.get(id=pk)
     form = CreateProduct(instance=product)
@@ -147,6 +155,7 @@ def update_product(request, pk):
     }
     return render(request, 'accounts/create.html', context)
 
+@login_required
 def update_order(request, pk):
     order = Order.objects.get(id=pk)
     form = CreateOrder(instance=order)
@@ -161,6 +170,7 @@ def update_order(request, pk):
     }
     return render(request, 'accounts/create.html', context)
 
+@login_required
 def update_customer(request, pk):
     customer = Customer.objects.get(id=pk)
     form = CreateCustomer(instance=customer)
@@ -186,6 +196,11 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
+            request.session['isAuth'] = True
+            nxt = request.GET.get('next')
+            print(nxt)
+            if nxt:
+                return redirect(nxt)
             return redirect('/')
 
     context = {
