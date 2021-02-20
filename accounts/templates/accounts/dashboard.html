@@ -4,6 +4,13 @@
 
 {% include "accounts/status.html" with order_count=order_count delivered=delivered pending=pending %}
 <br>
+{% if messages %}
+	{% for msg in messages %}
+	    <div class="alert alert-{{ msg.tags }} alert-dismissible fade show">
+			{{ msg }} <button type="button" class="close" data-dismiss="alert">&times;</button>
+    	</div>
+	{% endfor %}	
+{% endif %}
 
 <div class="row">
 	<div class="col-md-5">

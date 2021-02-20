@@ -10,6 +10,13 @@
             <p class="text-center">Get started with your free account</p>            
             <form method="POST" action="">
                 {% csrf_token %}
+                {% if messages %}
+                    {% for msg in messages %}
+                        <div class="alret alert-danger">{{ msg }}</div>
+                    {% endfor %}
+                
+                {% endif %}
+                
                 {{ form.errors }}
 
                 {{ form.first_name.label }}

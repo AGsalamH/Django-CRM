@@ -2,7 +2,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from .models import Customer,Product, Order
-
+from django.contrib import messages
 # Forms
 from .forms import (
     CreateCustomer, 
@@ -59,7 +59,7 @@ def customer_view(request, pk):
 
 
 # ------------------------ CREATE ------------------------
-@login_required
+@login_required(login_url='login')
 def create_customer(request):
     form = CreateCustomer()
 
@@ -213,7 +213,6 @@ def login_view(request):
             login(request, user)
             request.session['isAuth'] = True
             nxt = request.GET.get('next')
-            print(nxt)
             if nxt:
                 return redirect(nxt)
             return redirect('/')
