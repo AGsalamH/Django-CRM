@@ -123,20 +123,35 @@ def customer_create_order(request, pk):
 @login_required
 def delete_order(request, pk):
     order = Order.objects.get(id=pk)
-    order.delete()
-    return redirect('/')
+    if request.method == 'POST':
+        order.delete()
+        return redirect('/')
+    context = {
+        'item': order
+    }
+    return render(request, 'accounts/delete.html',  context)
 
 @login_required
 def delete_customer(request, pk):
     customer = Customer.objects.get(id=pk)
-    customer.delete()
-    return redirect('/')
+    if request.method == 'POST':
+        customer.delete()
+        return redirect('/')
+    context = {
+        'item': customer
+    }
+    return render(request, 'accounts/delete.html',  context)
 
 @login_required
 def delete_product(request, pk):
     product = Product.objects.get(id=pk)
-    product.delete()
-    return redirect('/products/')
+    if request.method == 'POST':
+        product.delete()
+        return redirect('/')
+    context = {
+        'item': product
+    }
+    return render(request, 'accounts/delete.html',  context)
 
 
 # ------------------------ UPDATE ------------------------
